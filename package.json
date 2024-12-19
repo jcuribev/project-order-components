@@ -5,11 +5,18 @@
   "repository": "<Add your repository here>",
   "license": "UNLICENSED",
   "private": true,
+  "engines": {
+    "node": "^18"
+  },
   "dependencies": {
-    "@sap/cds": "^8",
     "express": "^4",
+    "@sap/cds": "^8",
     "@sap/xssec": "^4",
-    "@cap-js/hana": "^1"
+    "@cap-js/hana": "^1",
+    "@sap/cds-common-content": "^2.1.0",
+    "@sap-cloud-sdk/http-client": "^3.24.0",
+    "@sap-cloud-sdk/connectivity": "3.24.0",
+    "@sap-cloud-sdk/resilience": "3.24.0"
   },
   "devDependencies": {
     "@cap-js/cds-types": "^0.7.0",
@@ -20,11 +27,42 @@
     "start": "cds-serve"
   },
   "cds": {
+    "fiori": {
+      "preview": true
+    },
+    "server": {
+      "index": true
+    },
     "requires": {
-      "auth": "xsuaa",
+      "auth": "[development] ? mocked : xsuaa",
       "connectivity": true,
       "destinations": true,
-      "application-logging": true
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "[development]": {
+          "credentials": {
+            "url": "https://my408665-api.s4hana.cloud.sap/sap/opu/odata/sap/API_BUSINESS_PARTNER",
+            "authentication": "BasicAuthentication",
+            "username": "CAP_BOOTCAMP_S4_API_USER",
+            "password": "WS$UGgbhkG8EEvUpccCgmedHhmHRiWeZVGfvcUPE"
+          }
+        },
+        "[production]": {
+          "credentials": {
+            "destination": "key_dest",
+            "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+          }
+        }
+      },
+      "[development]": {
+        "db": "sqlite",
+        "auth": "mocked"
+      },
+      "[production]": {
+        "db": "hana",
+        "auth": "xsuaa"
+      }
     },
     "sql": {
       "native_hana_associations": false

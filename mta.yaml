@@ -26,10 +26,9 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: components-order-auth
-      - name: components-order-db
       - name: components-order-connectivity
       - name: components-order-destination
-      - name: components-order-logging
+      - name: components-order-db
 
   - name: components-order-db-deployer
     type: hdb
@@ -38,24 +37,6 @@ modules:
       buildpack: nodejs_buildpack
     requires:
       - name: components-order-db
-
-  - name: components-order
-    type: approuter.nodejs
-    path: app/router
-    parameters:
-      keep-existing-routes: true
-      disk-quota: 256M
-      memory: 256M
-    requires:
-      - name: srv-api
-        group: destinations
-        properties:
-          name: srv-api # must be used in xs-app.json as well
-          url: ~{srv-url}
-          forwardAuthToken: true
-      - name: components-order-auth
-      - name: components-order-destination
-      - name: components-order-logging
 
 resources:
   - name: components-order-auth
@@ -67,11 +48,6 @@ resources:
       config:
         xsappname: components-order-${org}-${space}
         tenant-mode: dedicated
-  - name: components-order-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
   - name: components-order-connectivity
     type: org.cloudfoundry.managed-service
     parameters:
@@ -82,8 +58,8 @@ resources:
     parameters:
       service: destination
       service-plan: lite
-  - name: components-order-logging
-    type: org.cloudfoundry.managed-service
+  - name: components-order-db
+    type: com.sap.xs.hdi-container
     parameters:
-      service: application-logs
-      service-plan: standard
+      service: hana
+      service-plan: hdi-shared

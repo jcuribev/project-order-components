@@ -1,0 +1,91 @@
+@baseUrl = http://localhost:34753
+
+###
+GET {{baseUrl}}/order-service/Orders
+
+###
+# @name createOrder
+POST {{baseUrl}}/order-service/createOrder
+Content-Type: application/json
+
+{
+  "customer": "pepito",
+  "items": [
+    {
+      "product": "26e467ac-b8d1-4777-b634-587130e4d82f",
+      "quantity": "2"
+    },
+    {
+      "product": "29f332f4-4a7a-4b93-b2bc-074ef0400cf6",
+      "quantity": "2"
+    }
+  ]
+}
+
+###
+GET {{baseUrl}}/order-service/Invoices
+
+###
+GET {{baseUrl}}/order-service/Products
+
+###
+GET {{baseUrl}}/order-service/Customers
+
+###
+POST {{baseUrl}}/order-service/listProductsFromOrder
+Content-Type: application/json
+
+{
+  "order": "20366f68-83bf-46e0-9ba8-8f95cde4b9cf"
+}
+
+###
+POST {{baseUrl}}/order-service/payInvoice
+Content-Type: application/json
+
+{
+  "invoice": "c9e07624-aa6b-490e-8040-90937e497bc5"
+}
+
+###
+POST {{baseUrl}}/user-service/createCustomer
+Content-Type: application/json
+
+{
+    "customerName":"pepito",
+    "address": "Cl. 20",
+    "businessPartnerID":"10100002"
+}
+
+###
+POST {{baseUrl}}/user-service/createCustomer
+Content-Type: application/json
+
+{
+    "customer":"pepito",
+    "businessPartnerID":"11111"
+}
+
+###
+POST {{baseUrl}}/user-service/createSupporter
+Content-Type: application/json
+
+{
+    "supporterName":"Pepe Soporte"
+}
+
+###
+POST {{baseUrl}}/user-service/fetchCustomerInformation
+Content-Type: application/json
+
+{
+    "customer":"6ea27197-aa79-40e5-aeec-c69b9ce644c1"
+}
+
+###
+POST {{baseUrl}}/user-service/fetchBusinessPartner
+Content-Type: application/json
+
+{
+    "businessPartnerID":"10100002"
+}

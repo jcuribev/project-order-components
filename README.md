@@ -22,4 +22,11 @@ File or Folder | Purpose
 
 ## Learn More
 
+URL de despliegue del proyecto, por favor escribirme si es que necesitan que levante la base de datos
+https://4e230df9trial-trial-n6n251lf-trial-components-order-srv.cfapps.us10-001.hana.ondemand.com/
+
 Learn more at https://cap.cloud.sap/docs/get-started/.
+
+DESPLEGAR DATOS LOCALES
+
+cds deploy --to sqlite
