@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:34753
+@baseUrl = http://localhost:4004
 
 ###
 GET {{baseUrl}}/order-service/Orders
@@ -89,3 +89,37 @@ Content-Type: application/json
 {
     "businessPartnerID":"10100002"
 }
+
+
+@baseUrl = http://localhost:4004
+
+###
+GET {{baseUrl}}/order-service/OrderItems
+Content-Type: application/json
+
+###
+POST {{baseUrl}}/order-service/OrderItems
+Content-Type: application/json
+
+{
+    "name": "i5 660000000",
+    "price": 699.99,
+    "manufacturer_ID": "b093e2f8-3cd9-4d67-813a-b7b74a8c8c45",
+    "typeOfProduct": "CPU",
+    "stock": 100
+}
+
+###
+PUT {{baseUrl}}/order-service/Products(4df0b891-2de9-4e7e-9b75-41096b7f0d0b)
+Content-Type: application/json
+
+{
+    "name": "i5 660000000",
+    "price": 699.99,
+    "manufacturer_ID": "b093e2f8-3cd9-4d67-813a-b7b74a8c8c45",
+    "typeOfProduct": "CPU",
+    "stock": 100
+}
+
+###
+DELETE {{baseUrl}}/order-service/Products(4df0b891-2de9-4e7e-9b75-41096b7f0d0b)

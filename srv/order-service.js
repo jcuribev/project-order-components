@@ -1,5 +1,4 @@
 const cds = require('@sap/cds')
-const { find } = require('@sap/cds/lib/utils/cds-utils')
 
 class OrderService extends cds.ApplicationService {
   async init() {
@@ -18,11 +17,11 @@ class OrderService extends cds.ApplicationService {
     try {
       const { Orders, Products } = this.entities
       if (items.length === 0)
-        throw new Error('No items in the order')
+        return { code: 400, message: 'No items in the order' }
 
       const customerRecord = await this.findCustomerByCriteria({ name: customer })
       if (!customerRecord)
-        throw new Error('Customer not found')
+        return { code: 400, message: 'Customer not found' }
 
       const orderData = { customer: { ID: customerRecord.ID }, status: 'OPEN', total: 0 }
       const [order] = await INSERT.into(Orders).entries(orderData)
@@ -31,9 +30,9 @@ class OrderService extends cds.ApplicationService {
 
       for (const item of items) {
         const productRecord = await SELECT.one.from(Products).where({ ID: item.product })
-        if (!productRecord) throw new Error(`Product with ID ${item.product} not found. Order Cancelled.`)
-        if (productRecord.stock === 0) throw new Error(`Product with ID ${item.product} is out of stock. Order Cancelled.`)
-        if (productRecord.stock < item.quantity) throw new Error(`Not enough stock for product with ID ${item.product}. Order Cancelled.`)
+        if (!productRecord) return { code: 404, message: `Product with ID ${item.product} not found. Order Cancelled.` }
+        if (productRecord.stock === 0) return { code: 400, message: `Product with ID ${item.product} is out of stock. Order Cancelled.` }
+        if (productRecord.stock < item.quantity) return { code: 400, message: `Not enough stock for product with ID ${item.product}. Order Cancelled.` }
 
         const itemTotalPrice = item.quantity * productRecord.price
         const orderItemData = { order: { ID: order.ID }, product: { ID: productRecord.ID }, quantity: item.quantity, total: itemTotalPrice }
@@ -51,12 +50,12 @@ class OrderService extends cds.ApplicationService {
   }
 
   async handleAfterOrder(orderID) {
-    // try {
-    await this.updateProductStock(orderID)
-    return await this.createInvoice(orderID)
-    // } catch (error) {
-    throw new Error(error)
-    // }
+    try {
+      await this.updateProductStock(orderID)
+      return await this.createInvoice(orderID)
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 
   async createItemOrder(orderItemData) {
@@ -109,7 +108,7 @@ class OrderService extends cds.ApplicationService {
 
     await this.insertInvoiceToDatabase(newInvoice)
 
-    const createdInvoice = await this.findInvoice({ID: order.ID})
+    const createdInvoice = await this.findInvoice({ ID: order.ID })
 
     return createdInvoice
   }
@@ -122,12 +121,12 @@ class OrderService extends cds.ApplicationService {
   async listProductsFromOrder(orderID) {
 
     if (!orderID || orderID === '')
-      throw new Error('Order ID must not be empty')
+      return { code: 400, message: 'Order ID must not be empty' }
 
     const orderItems = await this.findOrderItems({ order_ID: orderID })
 
     if (!orderItems)
-      throw new Error(`Order with ID ${orderID} does not exist`)
+      return { code: 404, message: `Order with ID ${orderID} does not exist` }
 
     return orderItems
   }
@@ -148,16 +147,19 @@ class OrderService extends cds.ApplicationService {
       const { Invoices } = this.entities
 
       if (!invoice)
-        throw new Error('The invoice ID must not be empty')
+        return { code: 400, message: 'The invoice ID must not be empty' }
 
       const invoiceExists = this.findInvoice({ ID: invoice })
 
       if (!invoiceExists)
-        throw new Error(`Invoice with ID ${invoice} does not exist`)
+        return { code: 404, message: `Invoice with ID ${invoice} does not exist` }
 
-      await UPDATE(Invoices).set({ paymentStatus: 'PAID' })
+      if (invoiceExists.paymentStatus === 'PAID')
+        return { code: 200, message: `Invoice with ID ${invoice} has already been paid` }
 
-      return 'OK'
+      await UPDATE(Invoices).set({ paymentStatus: 'PAID' }).where({ ID: invoice })
+
+      return 'Invoice paid'
     }
     catch (error) {
       throw new Error(error)

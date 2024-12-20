@@ -5,7 +5,6 @@ service OrderService @(path: '/order-service') {
     projection on fab.Manufacturers {
       *,
       originCountry.name as country,
-
     }
 
   entity Products      as projection on fab.Products;
@@ -21,7 +20,4 @@ service OrderService @(path: '/order-service') {
     product : Products:ID;
     quantity : Integer;
   })                                              returns Invoices;
-
-  action cancelOrder(order : Orders:ID)           returns String;
-
 }
