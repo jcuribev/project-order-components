@@ -54,7 +54,7 @@ To successfully  create a Customer, the **businessCostumer** field must be an ex
 ## Test It!
 
 ### Online:
--   Use the Postman collection from the repository and test the created.
+-   Use the Postman collection from the repository and test the created operations.
 -   You may also see the Index [here](https://4e230df9trial-trial-n6n251lf-trial-components-order-srv.cfapps.us10-001.hana.ondemand.com/).
 
 ### On localhost:
