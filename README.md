@@ -57,6 +57,8 @@ To successfully  create a Customer, the **businessCostumer** field must be an ex
 -   Use the Postman collection from the repository and test the created operations.
 -   You may also see the Index [here](https://4e230df9trial-trial-n6n251lf-trial-components-order-srv.cfapps.us10-001.hana.ondemand.com/).
 
+**Note**: The tickets service is not available online due to SAP's free trial account constraints.
+
 ### On localhost:
 -   Run ```cds watch ```
 -   Use the default requests in the HTTP folder
