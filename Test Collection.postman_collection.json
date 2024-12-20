@@ -1,0 +1,293 @@
+{
+	"info": {
+		"_postman_id": "311f3a0d-61c7-41f7-b64d-cff89f5cf5ce",
+		"name": "Test Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25724656"
+	},
+	"item": [
+		{
+			"name": "ORDER",
+			"item": [
+				{
+					"name": "ORDERS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CURRENT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SAP_URL}}/order-service/Orders",
+							"host": [
+								"{{SAP_URL}}"
+							],
+							"path": [
+								"order-service",
+								"Orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE ORDER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CURRENT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customer\": \"pepito\",\r\n  \"items\": [\r\n    {\r\n      \"product\": \"26e467ac-b8d1-4777-b634-587130e4d82f\",\r\n      \"quantity\": \"2\"\r\n    },\r\n    {\r\n      \"product\": \"29f332f4-4a7a-4b93-b2bc-074ef0400cf6\",\r\n      \"quantity\": \"5\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SAP_URL}}/order-service/createOrder",
+							"host": [
+								"{{SAP_URL}}"
+							],
+							"path": [
+								"order-service",
+								"createOrder"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "CUSTOMERS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CURRENT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SAP_URL}}/user-service/Customers",
+							"host": [
+								"{{SAP_URL}}"
+							],
+							"path": [
+								"user-service",
+								"Customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE CUSTOMER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CURRENT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerName\":\"camilo\",\r\n    \"address\": \"Cl. 20\",\r\n    \"businessPartnerID\":\"10100004\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SAP_URL}}/user-service/createCustomer",
+							"host": [
+								"{{SAP_URL}}"
+							],
+							"path": [
+								"user-service",
+								"createCustomer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE SUPPORTER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CURRENT_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"supporterName\":\"USUARIO SOPORTE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SAP_URL}}/user-service/createSupporter",
+							"host": [
+								"{{SAP_URL}}"
+							],
+							"path": [
+								"user-service",
+								"createSupporter"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EXTERNAL",
+			"item": [
+				{
+					"name": "EXTERNAL SERVICE API",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{EXT_API_USER}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{EXT_API_PASS}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}",
+							"host": [
+								"{{API_URL}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "METADATA",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientSecret",
+							"value": "{{CLIENT_SECRET}}",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{CLIENT_ID_TOKEN}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{ACCESS_TOKEN_URL}}",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{SAP_URL}}/order-service/",
+					"host": [
+						"{{SAP_URL}}"
+					],
+					"path": [
+						"order-service",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
